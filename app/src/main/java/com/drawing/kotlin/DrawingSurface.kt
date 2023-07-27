@@ -118,7 +118,7 @@ class DrawingSurface(context: Context, attrs: AttributeSet) :
             updateThread = UpdateThread(holder, context, myHandler, this)
             updateThread.start()
             updateThread.setRunning(true)
-        } else if (updateThread.getState() === Thread.State.NEW) {
+        } else if (updateThread.state === Thread.State.NEW) {
             updateThread.start()
             updateThread.setRunning(true)
         }
@@ -178,14 +178,14 @@ class DrawingSurface(context: Context, attrs: AttributeSet) :
             // not be called to do this for us.
             if (recreateThread) {
                 recreateThread = false
-                if (updateThread.getState() === Thread.State.TERMINATED) {
+                if (updateThread.state === Thread.State.TERMINATED) {
                     updateThread = UpdateThread(
                         holder, context,
                         myHandler, this
                     )
                     updateThread.start()
                     updateThread.setRunning(true)
-                } else if (updateThread.getState() === Thread.State.NEW) {
+                } else if (updateThread.state === Thread.State.NEW) {
                     updateThread.start()
                     updateThread.setRunning(true)
                 }
@@ -193,18 +193,22 @@ class DrawingSurface(context: Context, attrs: AttributeSet) :
             if (event.action == MotionEvent.ACTION_UP) {
                 performClick()
             }
-            /**
-             * If the intro is finished we can perform actions on the touch
-             * events.
-             */
-            /**
-             * If the intro is finished we can perform actions on the touch
-             * events.
-             */
-            if (introFinished && touchReady) when (updateThread.mMode) {
-                UpdateThread.STATE_PAUSE -> updateThread.setState(UpdateThread.STATE_RUNNING)
-                UpdateThread.STATE_RUNNING -> return controller.onTouch(event)
+
+            if (introFinished && touchReady) {
+                when (updateThread.mMode) {
+                    UpdateThread.STATE_PAUSE -> updateThread.setState(UpdateThread.STATE_RUNNING)
+                    UpdateThread.STATE_RUNNING -> return controller.onTouch(event)
+                }
             }
+
+            /**
+             * If the intro is finished we can perform actions on the touch
+             * events.
+             */
+            /**
+             * If the intro is finished we can perform actions on the touch
+             * events.
+             */
             return super.onTouchEvent(event)
         }
     }
@@ -242,7 +246,7 @@ class DrawingSurface(context: Context, attrs: AttributeSet) :
      * needed.
      */
     fun onResume() {
-        if (updateThread.getState() === Thread.State.TERMINATED) {
+        if (updateThread.state === Thread.State.TERMINATED) {
             recreateThread = true
         }
     }

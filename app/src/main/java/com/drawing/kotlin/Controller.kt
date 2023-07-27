@@ -10,6 +10,7 @@ import android.view.SurfaceHolder
 import androidx.core.content.ContextCompat
 
 class Controller {
+
     /**
      * store the screen size for scaling objects
      */
@@ -27,6 +28,7 @@ class Controller {
     private var primaryColorDark = 0
     private var primaryColorAccent = 0
     private var textSize = 0
+
     fun init(context: Context) {
         primaryColor = ContextCompat.getColor(context, R.color.colorPrimary)
         primaryColorDark = ContextCompat.getColor(context, R.color.colorPrimaryDark)
@@ -91,7 +93,7 @@ class Controller {
     }
 
     private val randPaint: Paint?
-        private get() {
+        get() {
             val time = System.currentTimeMillis()
             return when ((time % 3).toInt()) {
                 0 -> primaryPaint

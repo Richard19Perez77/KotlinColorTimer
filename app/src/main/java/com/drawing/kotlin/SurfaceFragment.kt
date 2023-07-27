@@ -28,7 +28,7 @@ class SurfaceFragment : Fragment() {
     }
 
     private val sharedPrefs: Unit
-        private get() {
+        get() {
             val sharedpreferences: SharedPreferences = requireActivity().getSharedPreferences(
                 "sharedPreferences", Context.MODE_PRIVATE
             )
