@@ -1,0 +1,5 @@
+<resources>
+    <string name="message_text">Tap for a new color</string>
+    <string name="restart">Restart time</string>
+    <string name="app_name">DrawingKotlin</string>
+</resources>
