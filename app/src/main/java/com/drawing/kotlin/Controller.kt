@@ -89,9 +89,8 @@ class Controller {
     fun onTouch(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             paint = getRandPaint()
-            return false
         }
-        return true
+        return false
     }
 
     private fun getRandPaint() : Paint {
