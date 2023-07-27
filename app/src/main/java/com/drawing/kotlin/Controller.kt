@@ -18,13 +18,13 @@ class Controller {
     var screenHeight = 0
     var centerX = 0
     var rect = Rect()
-    var paint: Paint? = Paint()
+    var paint: Paint = Paint()
     var time: Long = 0
     private var primaryColor = 0
-    private var primaryPaint: Paint? = null
-    private var primaryDarkPaint: Paint? = null
-    private var accentPaint: Paint? = null
-    private var paintWhite: Paint? = null
+    private var primaryPaint: Paint = Paint()
+    private var primaryDarkPaint: Paint = Paint()
+    private var accentPaint: Paint = Paint()
+    private var paintWhite: Paint = Paint()
     private var primaryColorDark = 0
     private var primaryColorAccent = 0
     private var textSize = 0
@@ -34,14 +34,16 @@ class Controller {
         primaryColorDark = ContextCompat.getColor(context, R.color.colorPrimaryDark)
         primaryColorAccent = ContextCompat.getColor(context, R.color.colorAccent)
         primaryPaint = Paint()
-        primaryPaint!!.color = primaryColor
+        primaryPaint.color = primaryColor
         primaryDarkPaint = Paint()
-        primaryDarkPaint!!.color = primaryColorDark
+        primaryDarkPaint.color = primaryColorDark
         accentPaint = Paint()
-        accentPaint!!.color = primaryColorAccent
+        accentPaint.color = primaryColorAccent
         paintWhite = Paint()
-        paintWhite!!.color = Color.WHITE
-        paintWhite!!.textAlign = Paint.Align.CENTER
+        paintWhite.color = Color.WHITE
+        paintWhite.textAlign = Paint.Align.CENTER
+        randPaint = accentPaint
+        paint = accentPaint
     }
 
     /**
@@ -51,9 +53,9 @@ class Controller {
      * @param canvas our drawing surface's canvas.
      */
     fun draw(canvas: Canvas) {
-        canvas.drawRect(rect, paint!!)
+        canvas.drawRect(rect, paint)
         val text = "Time: $time"
-        canvas.drawText(text, centerX.toFloat(), (textSize * 2).toFloat(), paintWhite!!)
+        canvas.drawText(text, centerX.toFloat(), (textSize * 2).toFloat(), paintWhite)
     }
 
     /**
@@ -76,7 +78,7 @@ class Controller {
     private fun initTextArea() {
         centerX = screenWidth / 2
         textSize = screenHeight / 20
-        paintWhite!!.textSize = textSize.toFloat()
+        paintWhite.textSize = textSize.toFloat()
     }
 
     /**
@@ -86,22 +88,24 @@ class Controller {
      */
     fun onTouch(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
-            paint = randPaint
+            paint = getRandPaint()
             return false
         }
         return true
     }
 
-    private val randPaint: Paint?
-        get() {
-            val time = System.currentTimeMillis()
-            return when ((time % 3).toInt()) {
-                0 -> primaryPaint
-                1 -> primaryDarkPaint
-                2 -> accentPaint
-                else -> accentPaint
-            }
+    private fun getRandPaint() : Paint {
+        return when (paint) {
+            accentPaint -> primaryDarkPaint
+            primaryDarkPaint -> primaryPaint
+            else -> accentPaint
         }
+    }
+
+
+
+    private var randPaint: Paint = Paint()
+
 
     /**
      * Update the current objects, reset after screen cycle has ended.
