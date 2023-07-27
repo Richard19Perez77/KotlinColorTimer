@@ -41,6 +41,7 @@ class SurfaceFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         val view: View = inflater.inflate(R.layout.fragment_surface, container, false)
         // get reference to our surface
         drawingSurface = view.findViewById<View>(R.id.drawing_surface) as DrawingSurface
