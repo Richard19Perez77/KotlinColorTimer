@@ -87,20 +87,21 @@ class Controller {
      * over, returning true means the touch events will keep being fed to here.
      */
     fun onTouch(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
+        if (event.action == MotionEvent.ACTION_DOWN ||
+            event.action == MotionEvent.ACTION_MOVE
+        ) {
             paint = getRandPaint()
         }
-        return false
+        return true
     }
 
-    private fun getRandPaint() : Paint {
+    private fun getRandPaint(): Paint {
         return when (paint) {
             accentPaint -> primaryDarkPaint
             primaryDarkPaint -> primaryPaint
             else -> accentPaint
         }
     }
-
 
 
     private var randPaint: Paint = Paint()
